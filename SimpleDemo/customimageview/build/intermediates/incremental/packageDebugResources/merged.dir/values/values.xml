@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CustomImageView</string>
+    <declare-styleable name="CustomImageView">
+        <!--是否圆形-->
+        <attr format="boolean" name="round"/>
+        <!--全圆角半径大小-->
+        <attr format="dimension" name="corner"/>
+        <!--左上圆角半径大小-->
+        <attr format="dimension" name="corner_top_left"/>
+        <!--右上圆角半径大小-->
+        <attr format="dimension" name="corner_top_right"/>
+        <!--左下圆角半径大小-->
+        <attr format="dimension" name="corner_bottom_left"/>
+        <!--右下圆角半径大小-->
+        <attr format="dimension" name="corner_bottom_right"/>
+        <!--边框是否覆盖在图片上-->
+        <attr format="boolean" name="border_over"/>
+        <!--边框宽度-->
+        <attr format="dimension" name="border_width"/>
+        <!--边框颜色-->
+        <attr format="color" name="border_color"/>
+    </declare-styleable>
+</resources>

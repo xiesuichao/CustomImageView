@@ -1,0 +1,13 @@
+R_DEF: Internal format may change without notice
+local
+attr? border_color
+attr? border_over
+attr? border_width
+attr? corner
+attr? corner_bottom_left
+attr? corner_bottom_right
+attr? corner_top_left
+attr? corner_top_right
+attr? round
+string app_name
+styleable CustomImageView round corner corner_top_left corner_top_right corner_bottom_left corner_bottom_right border_over border_width border_color
