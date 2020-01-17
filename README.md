@@ -4,3 +4,17 @@
 
 自定义ImageView，支持圆形，全圆角，部分圆角，加边框，边框是否覆盖在内容上  
 保留原生ImageView的所有功能，支持Glide显示gif  
+
+Add it in your root build.gradle at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+Step 2. Add the dependency
+
+	dependencies {
+	        implementation 'com.github.xiesuichao:CustomImageView:Tag'
+	}
