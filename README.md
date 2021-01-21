@@ -8,17 +8,18 @@
 保留原生ImageView的所有功能，
 
 //设置圆形  
-<com.scorenet.sncomponent.customimageviewlib.CustomImageView  
-        android:id="@+id/iv_material_expert_avatar"  
-        android:layout_width="@dimen/dp_56"  
-        android:layout_height="@dimen/dp_56"  
-        tools:src="@drawable/common_default_avatar"  
-        />
+<com.frost.defense.customimageview.CustomImageView  
+    android:id="@+id/iv_material_expert_avatar"  
+    android:layout_width="@dimen/dp_56"  
+    android:layout_height="@dimen/dp_56"  
+    tools:src="@drawable/common_default_avatar"  
+    />
 
 //设置圆角  
-<com.scorenet.sncomponent.customimageviewlib.CustomImageView  
+<com.frost.defense.customimageview.CustomImageView  
     android:id="@+id/iv_user_home_avatar"  
     android:layout_width="@dimen/dp_70"  
     android:layout_height="@dimen/dp_70"  
+    app:civCornerRadius="8dp"  
     tools:src="@drawable/common_default_avatar"  
     />
