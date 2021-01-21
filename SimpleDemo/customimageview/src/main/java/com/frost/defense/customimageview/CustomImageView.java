@@ -30,11 +30,10 @@ public class CustomImageView extends AppCompatImageView {
     private Path clipPath, srcPath, borderPath;
     private float[] cornerRadiusArr;
     private float[] borderRadiusArr;
-    private boolean isRound = false;//是否圆形
-    private boolean isBorderOver = false;//边框线是否覆盖在头像上
-    private boolean isDrawCorner = false;//是否绘制圆角
-    private float borderWidth;
-    private int width, height, borderColor, cornerRadius, topLeftRadius, topRightRadius, botLeftRadius, botRightRadius;
+    private boolean isRound = true;//是否圆形
+    private float borderWidth;//边框宽度
+    private int borderColor, cornerRadius, leftTopRadius, rightTopRadius, leftBottomRadius,
+            rightBottomRadius;
 
 
     public CustomImageView(Context context) {
@@ -50,46 +49,65 @@ public class CustomImageView extends AppCompatImageView {
         init(context, attrs);
     }
 
-    public void setRound(boolean isRound) {
-        this.isRound = isRound;
+    public void setRound(boolean state) {
+        this.isRound = state;
+        initRadius();
+        setCornerParams();
         invalidate();
     }
 
-    public void setTopLeftRadius(int topLeftRadius) {
-        this.topLeftRadius = dp2px(getContext(), topLeftRadius);
+    public void setCornerRadius(int cornerRadius){
+        this.cornerRadius = cornerRadius;
         initRadius();
+        setCornerParams();
         invalidate();
     }
 
-    public void setTopRightRadius(int topRightRadius) {
-        this.topRightRadius = dp2px(getContext(), topRightRadius);
+    public void setLeftTopRadius(int leftTopRadius) {
+        this.leftTopRadius = leftTopRadius;
         initRadius();
+        setCornerParams();
         invalidate();
     }
 
-    public void setBotLeftRadius(int botLeftRadius) {
-        this.botLeftRadius = dp2px(getContext(), botLeftRadius);
+    public void setRightTopRadius(int rightTopRadius) {
+        this.rightTopRadius = rightTopRadius;
         initRadius();
+        setCornerParams();
         invalidate();
     }
 
-    public void setBotRightRadius(int botRightRadius) {
-        this.botRightRadius = dp2px(getContext(), botRightRadius);
+    public void setLeftBottomRadius(int leftBottomRadius) {
+        this.leftBottomRadius = leftBottomRadius;
         initRadius();
+        setCornerParams();
+        invalidate();
+    }
+
+    public void setRightBottomRadius(int rightBottomRadius) {
+        this.rightBottomRadius = rightBottomRadius;
+        initRadius();
+        setCornerParams();
+        invalidate();
+    }
+
+    public void setBorderColor(int color){
+        this.borderColor = color;
+        this.borderWidth = 2f;
+        initRadius();
+        setCornerParams();
         invalidate();
     }
 
     private void init(@NonNull Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomImageView);
-        isRound = typedArray.getBoolean(R.styleable.CustomImageView_round, false);
-        cornerRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_corner, 0);
-        topLeftRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_corner_top_left, 0);
-        topRightRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_corner_top_right, 0);
-        botLeftRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_corner_bottom_left, 0);
-        botRightRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_corner_bottom_right, 0);
-        isBorderOver = typedArray.getBoolean(R.styleable.CustomImageView_border_over, false);
-        borderWidth = typedArray.getDimension(R.styleable.CustomImageView_border_width, 0);
-        borderColor = typedArray.getColor(R.styleable.CustomImageView_border_color, 0x60ffffff);
+        cornerRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_civCornerRadius, 0);
+        leftTopRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_civCornerTopLeft, 0);
+        rightTopRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_civCornerTopRight, 0);
+        leftBottomRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_civCornerBottomLeft, 0);
+        rightBottomRadius = typedArray.getDimensionPixelSize(R.styleable.CustomImageView_civCornerBottomRight, 0);
+        borderWidth = typedArray.getDimension(R.styleable.CustomImageView_civBorderWidth, 0);
+        borderColor = typedArray.getColor(R.styleable.CustomImageView_civBorderColor, 0x60ffffff);
 
         typedArray.recycle();
 
@@ -125,109 +143,84 @@ public class CustomImageView extends AppCompatImageView {
         initRadius();
     }
 
-    private void initRadius(){
+    private void initRadius() {
         cornerRadiusArr = new float[8];
         borderRadiusArr = new float[8];
         if (cornerRadius > 0) {
-            isDrawCorner = true;
+            isRound = false;
             for (int i = 0; i < cornerRadiusArr.length; i++) {
                 borderRadiusArr[i] = cornerRadius;
-                if (isBorderOver) {
-                    cornerRadiusArr[i] = cornerRadius + borderWidth / 2;
-                } else {
-                    cornerRadiusArr[i] = cornerRadius - borderWidth / 2;
-                }
+                cornerRadiusArr[i] = cornerRadius + borderWidth / 2;
             }
-        } else if (topLeftRadius > 0 || botLeftRadius > 0 || topRightRadius > 0 || botRightRadius > 0) {
-            isDrawCorner = true;
-            borderRadiusArr[0] = borderRadiusArr[1] = topLeftRadius;
-            borderRadiusArr[2] = borderRadiusArr[3] = topRightRadius;
-            borderRadiusArr[4] = borderRadiusArr[5] = botRightRadius;
-            borderRadiusArr[6] = borderRadiusArr[7] = botLeftRadius;
+        } else if (leftTopRadius > 0 || leftBottomRadius > 0 || rightTopRadius > 0 || rightBottomRadius > 0) {
+            isRound = false;
+            borderRadiusArr[0] = borderRadiusArr[1] = leftTopRadius;
+            borderRadiusArr[2] = borderRadiusArr[3] = rightTopRadius;
+            borderRadiusArr[4] = borderRadiusArr[5] = rightBottomRadius;
+            borderRadiusArr[6] = borderRadiusArr[7] = leftBottomRadius;
 
-            if (isBorderOver) {
-                if (topLeftRadius > 0) {
-                    cornerRadiusArr[0] = cornerRadiusArr[1] = topLeftRadius + borderWidth / 2;
-                }
-                if (topRightRadius > 0) {
-                    cornerRadiusArr[2] = cornerRadiusArr[3] = topRightRadius + borderWidth / 2;
-                }
-                if (botRightRadius > 0) {
-                    cornerRadiusArr[4] = cornerRadiusArr[5] = botRightRadius + borderWidth / 2;
-                }
-                if (botLeftRadius > 0) {
-                    cornerRadiusArr[6] = cornerRadiusArr[7] = botLeftRadius + borderWidth / 2;
-                }
-            } else {
-                if (topLeftRadius > 0) {
-                    cornerRadiusArr[0] = cornerRadiusArr[1] = topLeftRadius - borderWidth / 2;
-                }
-                if (topRightRadius > 0) {
-                    cornerRadiusArr[2] = cornerRadiusArr[3] = topRightRadius - borderWidth / 2;
-                }
-                if (botRightRadius > 0) {
-                    cornerRadiusArr[4] = cornerRadiusArr[5] = botRightRadius - borderWidth / 2;
-                }
-                if (botLeftRadius > 0) {
-                    cornerRadiusArr[6] = cornerRadiusArr[7] = botLeftRadius - borderWidth / 2;
-                }
+            if (leftTopRadius > 0) {
+                cornerRadiusArr[0] = cornerRadiusArr[1] = leftTopRadius + borderWidth / 2;
+            }
+            if (rightTopRadius > 0) {
+                cornerRadiusArr[2] = cornerRadiusArr[3] = rightTopRadius + borderWidth / 2;
+            }
+            if (rightBottomRadius > 0) {
+                cornerRadiusArr[4] = cornerRadiusArr[5] = rightBottomRadius + borderWidth / 2;
+            }
+            if (leftBottomRadius > 0) {
+                cornerRadiusArr[6] = cornerRadiusArr[7] = leftBottomRadius + borderWidth / 2;
+            }
+        }
+    }
+
+    private void setCornerParams(){
+        float width = getWidth();
+        float height = getHeight();
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+        float maxImgRadius = Math.min(width - getPaddingLeft() - getPaddingRight(), height - getPaddingTop() - getPaddingBottom()) / 2f;
+        float maxBorderRadius = Math.min(width, height) / 2f;
+        clipPath.reset();
+        srcPath.reset();
+        borderPath.reset();
+        if (isRound) {
+            clipPath.addCircle(centerX, centerY, maxImgRadius, Path.Direction.CCW);
+            srcRectF.set(centerX - maxImgRadius,
+                    centerY - maxImgRadius,
+                    centerX + maxImgRadius,
+                    centerY + maxImgRadius);
+            if (borderWidth > 0) {
+                borderPath.addCircle(centerX, centerY, maxBorderRadius - borderWidth / 2f, Path.Direction.CCW);
+            }
+
+        } else {
+            srcRectF.set(getPaddingLeft(), getPaddingTop(),
+                    width - getPaddingRight(), height - getPaddingBottom());
+            clipPath.addRoundRect(srcRectF, cornerRadiusArr, Path.Direction.CCW);
+            if (borderWidth > 0) {
+                borderRectF.set(borderWidth / 2f, borderWidth / 2f, width - borderWidth / 2f, height - borderWidth / 2f);
+                borderPath.addRoundRect(borderRectF, borderRadiusArr, Path.Direction.CCW);
             }
         }
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        width = getWidth();
-        height = getHeight();
-        int maxRadius = Math.min(width, height) / 2;
-        if (isRound) {
-            clipPath.addCircle(width / 2.0f, height / 2.0f, maxRadius, Path.Direction.CCW);
-            srcRectF.set(width / 2.0f - maxRadius, height / 2.0f - maxRadius,
-                    width / 2.0f + maxRadius, height / 2.0f + maxRadius);
-            if (borderWidth > 0) {
-                borderPath.addCircle(width / 2.0f, height / 2.0f, maxRadius - borderWidth / 2, Path.Direction.CCW);
-                if (!isBorderOver) {
-                    srcRectF.set(width / 2.0f - maxRadius + borderWidth, height / 2.0f - maxRadius + borderWidth,
-                            width / 2.0f + maxRadius - borderWidth, height / 2.0f + maxRadius - borderWidth);
-                }
-            }
-
-        } else {
-            srcRectF.set(0, 0, width, height);
-            if (isDrawCorner) {
-                clipPath.addRoundRect(srcRectF, cornerRadiusArr, Path.Direction.CCW);
-                if (borderWidth > 0) {
-                    borderRectF.set(borderWidth / 2, borderWidth / 2, width - borderWidth / 2, height - borderWidth / 2);
-                    borderPath.addRoundRect(borderRectF, borderRadiusArr, Path.Direction.CCW);
-                }
-            } else if (borderWidth > 0) {
-                borderRectF.set(0, 0, width, height);
-                borderPath.addRect(borderRectF, Path.Direction.CCW);
-            }
-        }
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        setCornerParams();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         // 使用图形混合模式来显示指定区域的图片
         canvas.saveLayer(srcRectF, null, Canvas.ALL_SAVE_FLAG);
-        if (borderWidth > 0 && !isBorderOver) {
-            float scaleX = (width - 2 * borderWidth) / width;
-            float scaleY = (height - 2 * borderWidth) / height;
-            canvas.scale(scaleX, scaleY, width / 2.0f, height / 2.0f);
-        }
         super.onDraw(canvas);
-
         drawClip(canvas);
-
         drawBorder(canvas);
     }
 
     private void drawClip(Canvas canvas) {
-        if (!isRound && !isDrawCorner) {
-            return;
-        }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1) {
             canvas.drawPath(clipPath, clipPaint);
         } else {
@@ -245,13 +238,5 @@ public class CustomImageView extends AppCompatImageView {
         // 恢复画布
         canvas.restore();
         canvas.drawPath(borderPath, borderPaint);
-    }
-
-    private int dp2px(Context context, float dpValue) {
-        if (context == null) {
-            return 0;
-        }
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 }

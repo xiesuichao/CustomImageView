@@ -2,24 +2,20 @@
 <resources>
 
     <declare-styleable name="CustomImageView">
-        <!--是否圆形-->
-        <attr name="round" format="boolean"/>
         <!--全圆角半径大小-->
-        <attr name="corner" format="dimension"/>
+        <attr name="civCornerRadius" format="dimension"/>
         <!--左上圆角半径大小-->
-        <attr name="corner_top_left" format="dimension"/>
+        <attr name="civCornerTopLeft" format="dimension"/>
         <!--右上圆角半径大小-->
-        <attr name="corner_top_right" format="dimension"/>
+        <attr name="civCornerTopRight" format="dimension"/>
         <!--左下圆角半径大小-->
-        <attr name="corner_bottom_left" format="dimension"/>
+        <attr name="civCornerBottomLeft" format="dimension"/>
         <!--右下圆角半径大小-->
-        <attr name="corner_bottom_right" format="dimension"/>
-        <!--边框是否覆盖在图片上-->
-        <attr name="border_over" format="boolean"/>
+        <attr name="civCornerBottomRight" format="dimension"/>
         <!--边框宽度-->
-        <attr name="border_width" format="dimension"/>
+        <attr name="civBorderWidth" format="dimension"/>
         <!--边框颜色-->
-        <attr name="border_color" format="color"/>
+        <attr name="civBorderColor" format="color"/>
     </declare-styleable>
 
 
