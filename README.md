@@ -7,17 +7,19 @@
 支持Glide显示gif  
 保留原生ImageView的所有功能，
 
+//设置圆形
+<com.scorenet.sncomponent.customimageviewlib.CustomImageView
+        android:id="@+id/iv_material_expert_avatar"
+        android:layout_width="@dimen/dp_56"
+        android:layout_height="@dimen/dp_56"
+        tools:src="@drawable/common_default_avatar"
+        android:scaleType="centerCrop"
+        />
 
-Add it in your root build.gradle at the end of repositories:
-
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-Step 2. Add the dependency
-
-	dependencies {
-	        implementation 'com.github.xiesuichao:CustomImageView:1.1.0'
-	}
+//设置圆角
+<com.scorenet.sncomponent.customimageviewlib.CustomImageView
+    android:id="@+id/iv_user_home_avatar"
+    android:layout_width="@dimen/dp_70"
+    android:layout_height="@dimen/dp_70"
+    tools:src="@drawable/common_default_avatar"
+    />
